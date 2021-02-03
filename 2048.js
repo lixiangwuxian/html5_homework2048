@@ -17,9 +17,20 @@ function init()
 
 function movup()
 {
+    var flag2move=false;
+    var block2move=0;
     for(var i=1;i<4;i++)
     {
-        for(var j=)
+        for(var j=1;j<4;j++)
+        {
+            for(var k=1;k>j;k++)
+            {
+                if(map[i][j-k]!=0)
+                {
+
+                }
+            }
+        }
     }
 }
 
@@ -42,3 +53,7 @@ function printout()
 {
 
 }
+
+init();
+consoctrl();
+//htmlctrl();
