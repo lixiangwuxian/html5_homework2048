@@ -15,9 +15,14 @@ function init()
     }
 }
 
+function add_random_block()
+{
+    
+}
+
 function movup()
 {
-    var flag2move=false;
+    var flag2add=false;
     var block2move=0;
     for(var i=1;i<4;i++)
     {
