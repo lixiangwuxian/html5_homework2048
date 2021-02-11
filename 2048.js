@@ -173,6 +173,7 @@ function checkifend()
         {
             for(var y=0;y<4;y++)
             {
+                
                 try
                 {
 					if (map[x][y] == map[x][y+1])
