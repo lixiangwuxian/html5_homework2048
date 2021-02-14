@@ -5,8 +5,6 @@
 ///v3
 ///map[x][y]
 
-var flag2add=false;
-var block2move=0;
 var ifend=false;
 var map=[];
 var mapreplay=[];
@@ -33,7 +31,7 @@ function insert_one()//随机插入一个2，有空格子返回未插入
 		var y = Math.floor(Math.random()*4);
         if (map[x][y] == 0)
         {
-			map[x][y] = 2;
+			map[x][y] = 1;
 			break;
 		}
 	}
@@ -59,6 +57,10 @@ function if_has_empty()//检测是否有空格子
 
 function init()//初始化4x4地图
 {
+    step=0;
+    score=0;
+    mapreplay=[];
+    ifend=false;
     for (var i=0;i<4;i++)
     {
         var mapy=[];
@@ -74,8 +76,9 @@ function init()//初始化4x4地图
 
 function movup()
 {
+    if(ifend)
+        break;
     step++;
-    flag2add=false;
     for(var y=1;y<4;y++)//逐行遍历，由上至下，由左至右，先纵后横
     {
         for(var x=0;x<4;x++)
@@ -109,15 +112,16 @@ function movup()
             }
         }
     }
-    mapreplay[step]=map;//存入回放
     addblock(2);
+    checkifend();
     output_html();
 }
 
 function movdown()
 {
+    if(ifend)
+        break;
     step++;
-    flag2add=false;
     for(var y=2;y>=0;y--)
     {
         for(var x=0;x<4;x++)
@@ -151,15 +155,16 @@ function movdown()
             }
         }
     }
-    mapreplay[step]=map;
     addblock(2);
+    checkifend();
     output_html();
 }
 
 function movleft()
 {
+    if(ifend)
+        break;
     step++;
-    flag2add=false;
     for(var x=1;x<4;x++)
     {
         for(var y=0;y<4;y++)
@@ -193,15 +198,16 @@ function movleft()
             }
         }
     }
-    mapreplay[step]=map;//存入回放
     addblock(2);
+    checkifend();
     output_html();
 }
 
 function movright()
 {
+    if(ifend)
+        break;
     step++;
-    flag2add=false;
     for(var x=2;x>=0;x--)
     {
         for(var y=0;y<4;y++)
@@ -235,8 +241,8 @@ function movright()
             }
         }
     }
-    mapreplay[step]=map;
     addblock(2);
+    checkifend();
     output_html();
 }
 
@@ -253,7 +259,7 @@ function checkifend()
             {
                 iffull=false;
             }
-            if(map[x][y] == 10)
+            if(map[x][y] == 11)
             {
                 if2048exist=true;
             }
@@ -300,28 +306,51 @@ function checkifend()
 
 function output_html()
 {
+    
+    mapreplay[step]=map;//存入回放
+    for(var x=0;x<4;x++)
+    {
+        for(var y=0;y<4;y++)
+        {
+            update_pos(x,y,map[x][y]);
+        }
+    }
     if(ifend)//结束游戏输出
     {
-
-    }
-    else//正常输出
-    {
-        for(var x=0;x<4;x++)
-        {
-            for(var y=0;y<4;y++)
-            {
-                update_pos(x,y,map[x][y]);
-            }
-        }
+        window.alert("游戏结束，您的分数:"+score);
     }
 }
 
 function update_pos(x,y,value)
 {
     var map2word=[['p00','p01','p02','p03'],['p10','p11','p12','p13'],['p20','p21','p22','p23'],['p30','p31','p32','p33']];
-    var value2word=['/pic/0.jpg','/pic/1.jpg','/pic/2.jpg','/pic/4.jpg','/pic/8.jpg','/pic/16.jpg','/pic/32.jpg','/pic/64.jpg','/pic/128.jpg','/pic/256.jpg','/pic/512.jpg','/pic/1024.jpg','/pic/2048.jpg'];
+    var value2word=['/pic/0.jpg','/pic/2.jpg','/pic/4.jpg','/pic/8.jpg','/pic/16.jpg','/pic/32.jpg','/pic/64.jpg','/pic/128.jpg','/pic/256.jpg','/pic/512.jpg','/pic/1024.jpg','/pic/2048.jpg'];
     img2replace=document.getElementById(map2word[y][x]);
     img2replace.src=value2word[value];
+}
+
+function map_replay()
+{
+    var i=0;
+    var replaying=window.setInterval(function replay_fc()
+    {
+        try
+        {
+            for(var x=0;x<4;x++)
+            {
+                for(var y=0;y<4;y++)
+                {
+                    update_pos(x,y,mapreplay[i][x][y]);
+                }
+            }
+        }
+        catch(e)
+        {
+            window.clearInterval(replaying);
+        }
+        i++;
+    }
+    ,500);
 }
 
 function main()
