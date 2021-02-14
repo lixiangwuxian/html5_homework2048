@@ -7,22 +7,57 @@
 
 var ifend=false;
 var map=[];
-var mapreplay=[];
+var map_replay=[];
 var step=0;
 var score=0;
+var ifnewnum=[];
+var score_replay=[];
 
-function addblock(n)//随机生成n个2
+function keydown(the_key)//按键检测
+{
+    if(the_key.keyCode == 38||the_key.keyCode == 87)//上键或w键
+    {
+        movup();
+    }
+    else if(the_key.keyCode == 40||the_key.keyCode == 83)
+    {
+        movdown();
+    }
+    else if(the_key.keyCode == 37||the_key.keyCode == 65)
+    {
+        movleft();
+    }
+    else if(the_key.keyCode == 39||the_key.keyCode == 68)
+    {
+        movright();
+    }
+    document.addEventListener("keydown",keydown);
+}
+
+function save_replay()
+{
+    map_replay[step]=[[],[],[],[]];//初始化表格
+    for(var x=0;x<4;x++)
+    {
+        for(var y=0;y<4;y++)
+        {
+            map_replay[step][x][y]=map[x][y];
+        }
+    }
+}
+
+function addblock(n)//随机生成n个2或4
 {
     while(n > 0)
     {
 		var ifadded = insert_one();
 		if (!ifadded)
-			break;//满了退出
+			break;//满了不加
 		n--;
 	}
 }
 
-function insert_one()//随机插入一个2，有空格子返回未插入
+function insert_one()//随机插入一个2或4，有空格子返回未插入
 {
 	var if_inserted = if_has_empty();
     while(if_inserted)
@@ -31,7 +66,7 @@ function insert_one()//随机插入一个2，有空格子返回未插入
 		var y = Math.floor(Math.random()*4);
         if (map[x][y] == 0)
         {
-			map[x][y] = 1;
+			map[x][y]=1+Math.floor(Math.random()*1.7);
 			break;
 		}
 	}
@@ -59,7 +94,7 @@ function init()//初始化4x4地图
 {
     step=0;
     score=0;
-    mapreplay=[];
+    map_replay=[];
     ifend=false;
     for (var i=0;i<4;i++)
     {
@@ -74,22 +109,38 @@ function init()//初始化4x4地图
     output_html();
 }
 
+function check_moved()
+{
+    var ifmoved=false;
+    for (var x = 0; x < 4; x++)
+    {
+        for(var y=0;y<4;y++)
+        {
+            if(map_replay[step-1][x][y]!=map[x][y])
+            {
+                ifmoved=true;
+            }
+        }
+    }
+    return ifmoved;
+}
+
 function movup()
 {
-    if(ifend)
-        break;
+    clearnum();
     step++;
     for(var y=1;y<4;y++)//逐行遍历，由上至下，由左至右，先纵后横
     {
         for(var x=0;x<4;x++)
         {
-            if(map[x][y]!=0)
+            if(map[x][y]!=0&&!ifend)
             {
                 for(var k=1;k<=y;k++)
                 {
-                    if(map[x][y-k]==map[x][y])//能合并
+                    if(map[x][y-k]==map[x][y]&&ifnewnum[x][y-k]==false)//能合并
                     {
                         map[x][y-k]++;
+                        ifnewnum[x][y-k]=true;
                         score+=map[x][y];//加分
                         map[x][y]=0;
                         break;
@@ -112,27 +163,28 @@ function movup()
             }
         }
     }
-    addblock(2);
+    if(!ifend&&check_moved())
+        addblock(Math.floor(Math.random()*1.5)+1);//添加1-2个数字各
     checkifend();
     output_html();
 }
 
 function movdown()
 {
-    if(ifend)
-        break;
+    clearnum();
     step++;
     for(var y=2;y>=0;y--)
     {
         for(var x=0;x<4;x++)
         {
-            if(map[x][y]!=0)
+            if(map[x][y]!=0&&!ifend)
             {
                 for(var k=1;k<=3-y;k++)
                 {
-                    if(map[x][y+k]==map[x][y])
+                    if(map[x][y+k]==map[x][y]&&ifnewnum[x][y+k]==false)
                     {
                         map[x][y+k]++;
+                        ifnewnum[x][y+k]=true;
                         score+=map[x][y];
                         map[x][y]=0;
                         break;
@@ -155,27 +207,28 @@ function movdown()
             }
         }
     }
-    addblock(2);
+    if(!ifend&&check_moved())
+        addblock(Math.floor(Math.random()*1.5)+1);
     checkifend();
     output_html();
 }
 
 function movleft()
 {
-    if(ifend)
-        break;
+    clearnum();
     step++;
     for(var x=1;x<4;x++)
     {
         for(var y=0;y<4;y++)
         {
-            if(map[x][y]!=0)
+            if(map[x][y]!=0&&!ifend)
             {
                 for(var k=1;k<=x;k++)
                 {
-                    if(map[x-k][y]==map[x][y])//能合并
+                    if(map[x-k][y]==map[x][y]&&ifnewnum[x-k][y]==false)//能合并
                     {
                         map[x-k][y]++;
+                        ifnewnum[x-k][y]=true;
                         score+=map[x][y];//加分
                         map[x][y]=0;
                         break;
@@ -198,27 +251,28 @@ function movleft()
             }
         }
     }
-    addblock(2);
+    if(!ifend&&check_moved())
+        addblock(Math.floor(Math.random()*1.5)+1);
     checkifend();
     output_html();
 }
 
 function movright()
 {
-    if(ifend)
-        break;
+    clearnum();
     step++;
     for(var x=2;x>=0;x--)
     {
         for(var y=0;y<4;y++)
         {
-            if(map[x][y]!=0)
+            if(map[x][y]!=0&&!ifend)
             {
                 for(var k=1;k<=3-x;k++)
                 {
-                    if(map[x+k][y]==map[x][y])
+                    if(map[x+k][y]==map[x][y]&&ifnewnum[x+k][y]==false)
                     {
                         map[x+k][y]++;
+                        ifnewnum[x+k][y]=true;
                         score+=map[x][y];
                         map[x][y]=0;
                         break;
@@ -241,7 +295,8 @@ function movright()
             }
         }
     }
-    addblock(2);
+    if(!ifend&&check_moved())
+        addblock(Math.floor(Math.random()*1.5)+1);
     checkifend();
     output_html();
 }
@@ -307,7 +362,8 @@ function checkifend()
 function output_html()
 {
     
-    mapreplay[step]=map;//存入回放
+    save_replay();
+    score_replay[step]=score;
     for(var x=0;x<4;x++)
     {
         for(var y=0;y<4;y++)
@@ -319,17 +375,19 @@ function output_html()
     {
         window.alert("游戏结束，您的分数:"+score);
     }
+    score2update=document.getElementById("score");
+    score2update.innerHTML=score;
 }
 
 function update_pos(x,y,value)
 {
     var map2word=[['p00','p01','p02','p03'],['p10','p11','p12','p13'],['p20','p21','p22','p23'],['p30','p31','p32','p33']];
     var value2word=['/pic/0.jpg','/pic/2.jpg','/pic/4.jpg','/pic/8.jpg','/pic/16.jpg','/pic/32.jpg','/pic/64.jpg','/pic/128.jpg','/pic/256.jpg','/pic/512.jpg','/pic/1024.jpg','/pic/2048.jpg'];
-    img2replace=document.getElementById(map2word[y][x]);
-    img2replace.src=value2word[value];
+    img2update=document.getElementById(map2word[y][x]);
+    img2update.src=value2word[value];
 }
 
-function map_replay()
+function map_replay_f()
 {
     var i=0;
     var replaying=window.setInterval(function replay_fc()
@@ -340,20 +398,30 @@ function map_replay()
             {
                 for(var y=0;y<4;y++)
                 {
-                    update_pos(x,y,mapreplay[i][x][y]);
+                    update_pos(x,y,map_replay[i][x][y]);
                 }
             }
+        score2update=document.getElementById("score");
+        score2update.innerHTML=score_replay[i];
         }
         catch(e)
         {
+            window.alert("回放完毕");
             window.clearInterval(replaying);
         }
         i++;
     }
-    ,500);
+    ,500);;
 }
 
-function main()
+function clearnum()
 {
-    init();
+    ifnewnum=[[],[],[],[]];
+    for(var x=0;x<4;x++)
+    {
+        for(var y=0;y<4;y++)
+        {
+            ifnewnum[x][y]=false;
+        }
+    }
 }
