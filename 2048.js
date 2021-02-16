@@ -26,11 +26,17 @@ function stop_replay()
 
 function undo()
 {
-    ifend=false
     stop_replay()
     try
     {
-        step--
+        if(ifend)
+        {
+            ifend=false
+        }
+        else
+        {
+            step--
+        }
         for(var x=0;x<4;x++)
         {
             for(var y=0;y<4;y++)
@@ -421,13 +427,23 @@ function output_html()
         step--
     if(ifend)//结束游戏输出
     {
-        window.alert("游戏结束，您的分数:"+score)
-        step--
+        for(var x=0;x<4;x++)
+        {
+            for(var y=0;y<4;y++)
+            {
+                update_pos(x,y,map[x][y])
+            }
+        }
     }
     score2update=document.getElementById("score")
-    score2update.innerHTML=score
+    score2update.innerHTML=score+"分"
     step2update=document.getElementById("step")
-    step2update.innerHTML=step
+    step2update.innerHTML=step+"步"
+    if(ifend)
+    {
+        step--;
+        window.alert("游戏结束，您的分数:"+score)
+    }
 }
 
 function update_pos(x,y,value)
@@ -461,16 +477,16 @@ function map_replay_f()
                     }
                 }
                 score2update=document.getElementById("score")
-                score2update.innerHTML=score_replay[i]
+                score2update.innerHTML=score_replay[i]+"分"
                 step2update=document.getElementById("step")
-                step2update.innerHTML=i
+                step2update.innerHTML=i+"步"
             }
             catch(e)
             {
                 window.alert("回放完毕")
                 window.clearInterval(replaying)
             }
-            i++
+            i++//步进
         }
     }
     ,500)
