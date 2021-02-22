@@ -174,7 +174,7 @@ function check_moved()//检测按下某键后是否发生了移动
     }
 }
 
-function movup()
+function movup()//向上移动
 {
     clearnum()
     step++
@@ -190,7 +190,7 @@ function movup()
                     {
                         map[x][y-k]++
                         ifnewnum[x][y-k]=true
-                        score+=map[x][y];//加分
+                        score+=Math.pow(2,map[x][y]-1)//加分
                         map[x][y]=0
                         break
                     }
@@ -234,7 +234,7 @@ function movdown()
                     {
                         map[x][y+k]++
                         ifnewnum[x][y+k]=true
-                        score+=map[x][y]
+                        score+=Math.pow(2,map[x][y]-1)
                         map[x][y]=0
                         break
                     }
@@ -278,7 +278,7 @@ function movleft()
                     {
                         map[x-k][y]++
                         ifnewnum[x-k][y]=true
-                        score+=map[x][y];//加分
+                        score+=Math.pow(2,map[x][y]-1)//加分
                         map[x][y]=0
                         break
                     }
@@ -322,7 +322,7 @@ function movright()
                     {
                         map[x+k][y]++
                         ifnewnum[x+k][y]=true
-                        score+=map[x][y]
+                        score+=Math.pow(2,map[x][y]-1)
                         map[x][y]=0
                         break
                     }
@@ -350,7 +350,7 @@ function movright()
     output_html()
 }
 
-function checkifend()
+function checkifend()//检查游戏是否结束
 {
     var iffull=true
     var ifmovable=false
@@ -408,7 +408,7 @@ function checkifend()
     }
 }
 
-function output_html()
+function output_html()//改变html中元素的值
 {
     
     if(check_moved())
@@ -446,7 +446,7 @@ function output_html()
     }
 }
 
-function update_pos(x,y,value)
+function update_pos(x,y,value)//改变座标上对应图片的显示
 {
     var map2word=[['p00','p01','p02','p03'],['p10','p11','p12','p13'],['p20','p21','p22','p23'],['p30','p31','p32','p33']]
     var value2word=['/pic/0.jpg','/pic/2.jpg','/pic/4.jpg','/pic/8.jpg','/pic/16.jpg','/pic/32.jpg','/pic/64.jpg','/pic/128.jpg','/pic/256.jpg','/pic/512.jpg','/pic/1024.jpg','/pic/2048.jpg']
@@ -454,7 +454,7 @@ function update_pos(x,y,value)
     img2update.src=value2word[value]
 }
 
-function map_replay_f()
+function map_replay_f()//游戏过程回放
 {
     var i=0
     replaying=window.setInterval(function replay_fc()
@@ -492,7 +492,7 @@ function map_replay_f()
     ,500)
 }
 
-function clearnum()
+function clearnum()//初始化4×4新生成数字的检测
 {
     ifnewnum=[[],[],[],[]]
     for(var x=0;x<4;x++)
