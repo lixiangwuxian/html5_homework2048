@@ -14,7 +14,7 @@ var ifnewnum=[]
 var score_replay=[]
 var replaying
 
-function stop_replay()
+function stop_replay()//有按键或按钮输入则停止回放
 {
     try
     {
@@ -24,7 +24,7 @@ function stop_replay()
     {}
 }
 
-function undo()
+function undo()//撤销
 {
     stop_replay()
     try
@@ -76,7 +76,7 @@ function keydown(the_key)//按键检测
     document.addEventListener("keydown",keydown);//接收下一个按键输入
 }
 
-function save_replay()
+function save_replay()//每次移动后保存状态
 {
     map_replay[step]=[[],[],[],[]];//初始化地图
     for(var x=0;x<4;x++)
