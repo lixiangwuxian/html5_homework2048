@@ -459,7 +459,7 @@ function map_replay_f()//游戏过程回放
     var i=0
     replaying=window.setInterval(function replay_fc()
     {
-        if(i>step)
+        if(i>step+1)
         {
             window.alert("回放完了！")
             window.clearInterval(replaying)
@@ -489,7 +489,7 @@ function map_replay_f()//游戏过程回放
             i++//步进
         }
     }
-    ,500)
+    ,100)
 }
 
 function clearnum()//初始化4×4新生成数字的检测
