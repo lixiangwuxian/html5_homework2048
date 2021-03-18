@@ -7,12 +7,12 @@
 
 var ifend=false
 var map=[]
-var map_replay=[]
+var map_replay=[]//步数*4*4的数组
 var step=0
 var score=0
 var ifnewnum=[]
-var score_replay=[]
-var replaying
+var score_replay=[]//一维数组，存放每一步时的分数
+var replaying//布尔型，是否正在回放
 
 function stop_replay()//有按键或按钮输入则停止回放
 {
@@ -213,7 +213,7 @@ function movup()//向上移动
         }
     }
     if(!ifend&&check_moved())
-        add_block(Math.floor(Math.random()*1.5)+1);//添加1-2个数字各
+        add_block(Math.floor(Math.random()*1.55+0.95))//添加1-2个数字各
     checkifend()
     output_html()
 }
@@ -257,7 +257,7 @@ function movdown()
         }
     }
     if(!ifend&&check_moved())
-        add_block(Math.floor(Math.random()*1.5)+1)
+        add_block(Math.floor(Math.random()*1.55+0.95))
     checkifend()
     output_html()
 }
@@ -301,7 +301,7 @@ function movleft()
         }
     }
     if(!ifend&&check_moved())
-        add_block(Math.floor(Math.random()*1.5)+1)
+        add_block(Math.floor(Math.random()*1.55+0.95))
     checkifend()
     output_html()
 }
@@ -345,7 +345,7 @@ function movright()
         }
     }
     if(!ifend&&check_moved())
-        add_block(Math.floor(Math.random()*1.5)+1)
+        add_block(Math.floor(Math.random()*1.55+0.95))
     checkifend()
     output_html()
 }
@@ -449,7 +449,7 @@ function output_html()//改变html中元素的值
 function update_pos(x,y,value)//改变座标上对应图片的显示
 {
     var map2word=[['p00','p01','p02','p03'],['p10','p11','p12','p13'],['p20','p21','p22','p23'],['p30','p31','p32','p33']]
-    var value2word=['/pic/0.jpg','/pic/2.jpg','/pic/4.jpg','/pic/8.jpg','/pic/16.jpg','/pic/32.jpg','/pic/64.jpg','/pic/128.jpg','/pic/256.jpg','/pic/512.jpg','/pic/1024.jpg','/pic/2048.jpg']
+    var value2word=['/pic/0.png','/pic/2.png','/pic/4.png','/pic/8.png','/pic/16.png','/pic/32.png','/pic/64.png','/pic/128.png','/pic/256.png','/pic/512.png','/pic/1024.png','/pic/2048.png']
     img2update=document.getElementById(map2word[y][x])
     img2update.src=value2word[value]
 }

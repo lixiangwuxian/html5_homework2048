@@ -7,52 +7,57 @@
         <script>
             document.addEventListener("keydown",keydown);
         </script>
+        <title>2048Game</title>
     </head>
     <body onload="init()">
         <div class="mainarea">
             <h1>2048 小 游 戏</h1>
             <br/>
-            <p1>
-                <img id="p00" src="/pic/0.jpg"/>
-                <img id="p01" src="/pic/0.jpg"/>
-                <img id="p02" src="/pic/0.jpg"/>
-                <img id="p03" src="/pic/0.jpg"/>
-            </p1>
-            <br/>
-            <p2>
-                <img id="p10" src="/pic/0.jpg"/>
-                <img id="p11" src="/pic/0.jpg"/>
-                <img id="p12" src="/pic/0.jpg"/>
-                <img id="p13" src="/pic/0.jpg"/>
-            </p2>
-            <br/>
-            <p3>
-                <img id="p20" src="/pic/0.jpg"/>
-                <img id="p21" src="/pic/0.jpg"/>
-                <img id="p22" src="/pic/0.jpg"/>
-                <img id="p23" src="/pic/0.jpg"/>
-            </p3>
-            <br/>
-            <p4>
-                <img id="p30" src="/pic/0.jpg"/>
-                <img id="p31" src="/pic/0.jpg"/>
-                <img id="p32" src="/pic/0.jpg"/>
-                <img id="p33" src="/pic/0.jpg"/>
-            </p4>
-        </div>
-        <div class="button">
-            <table>
-                <tr>
-                    <input type="button" value="重新开始" onclick="init()"/>
-                    <input type="button" value="观看回放" onclick="map_replay_f()"/>
-                    <input type="button" value="撤回一步" onclick="undo()"/>
+            <table class="mapArea">
+                <tr class="line">
+                    <td class=pic><img class="img" id="p00" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p01" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p02" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p03" src="/pic/0.png"/></td>
+                </tr>
+                <tr class="line">
+                    <td class=pic><img class="img" id="p10" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p11" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p12" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p13" src="/pic/0.png"/></td>
+                </tr>
+                <tr class="line">
+                    <td class=pic><img class="img" id="p20" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p21" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p22" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p23" src="/pic/0.png"/></td>
+                </tr>
+                <tr class="line">
+                    <td class=pic><img class="img" id="p30" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p31" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p32" src="/pic/0.png"/></td>
+                    <td class=pic><img class="img" id="p33" src="/pic/0.png"/></td>
                 </tr>
             </table>
-        </div>
-        <div class="scoreboard">
-            <tr><p5>当前得分: </p5><p6 id="score"></p6></tr>
-            <br/>
-            <tr><p7>一共走了: </p7><p8 id="step"></p8></tr>
+            </br>
+            <div>
+                <table>
+                    <tr>
+                        <input id=retry type="button" value="重新开始" onclick="init()"/>
+                        <input id=history type="button" value="观看回放" onclick="map_replay_f()"/>
+                        <input id=undo type="button" value="撤回一步" onclick="undo()"/>
+                    </tr>
+                </table>
+            </div>
+            <div class="scoreboard">
+                <tr>
+                    <p1>当前得分: </p1><p2 id="score"></p2>
+                </tr>
+                <br/>
+                <tr>
+                    <p3>一共走了: </p3><p4 id="step"></p4>
+                </tr>
+            </div>
         </div>
     </body>
 </html>

@@ -1,18 +1,76 @@
 body
 {
-    text-align: center;
-    background-color:#d2f7f8
+    background-color:#fcffd5
 }
 
 img 
 {
-    height:auto;
-    width:auto;
+    margin:0px 0px -5px 0px;
+    height: 50px;
+    width: 50px;
 }
 
 h1
 {
-    color: #527c83;
+    color: #032329;
     text-align:center;
-    font-size:large;
+    font-size:80;
+}
+
+.mainarea
+{
+    text-align: center;
+    color:  #a7a7a7;
+}
+
+.scoreboard
+{
+    color: black;
+}
+
+.mapArea
+{
+    background-color: #eeeeee;
+    outline: 6px solid;
+    text-align:center;
+    margin: 0 auto;
+}
+
+#retry {
+    margin:3px;
+    background-color: #b8f3ef; 
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 21px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    border-radius: 12px;
+}
+
+#history {
+    margin:3px;
+    background-color: #f3b8b8; 
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 21px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    border-radius: 12px;
+}
+
+#undo {
+    margin:1px;
+    background-color: #98daae; 
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 21px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    border-radius: 12px;
 }
