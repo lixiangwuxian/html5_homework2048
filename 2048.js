@@ -7,25 +7,25 @@
 
 var ifend=false
 var map=[]
-var map_replay=[]//步数*4*4的数组
+var map_playback=[]//步数*4*4的数组
 var step=0
 var score=0
 var ifnewnum=[]
-var score_replay=[]//一维数组，存放每一步时的分数
-var replaying//布尔型，是否正在回放
+var score_playback=[]//一维数组，存放每一步时的分数
+var playbacking//布尔型，是否正在回放
 
-function stop_replay()//有按键或按钮输入则停止回放
+function stop_playback()//有按键或按钮输入则停止回放
 {
     try
     {
-        window.clearInterval(replaying)
+        window.clearInterval(playbacking)
     }
     catch(e)
     {}
 }
 function undo()//撤销
 {
-    stop_replay()
+    stop_playback()
     try
     {
         if(ifend)
@@ -40,10 +40,10 @@ function undo()//撤销
         {
             for(var y=0;y<4;y++)
             {
-                map[x][y]=map_replay[step][x][y]
+                map[x][y]=map_playback[step][x][y]
             }
         }
-        score=score_replay[step]
+        score=score_playback[step]
         output_html()
     }
     catch(e)
@@ -54,7 +54,7 @@ function undo()//撤销
 }
 function keydown(the_key)//按键检测
 {
-    stop_replay();//有按键输入则中断回放
+    stop_playback();//有按键输入则中断回放
     if(the_key.keyCode == 38||the_key.keyCode == 87)//上键或w键
     {
         movup()
@@ -73,14 +73,14 @@ function keydown(the_key)//按键检测
     }
     document.addEventListener("keydown",keydown);//接收下一个按键输入
 }
-function save_replay()//每次移动后保存状态
+function save_playback()//每次移动后保存状态
 {
-    map_replay[step]=[[],[],[],[]];//初始化地图
+    map_playback[step]=[[],[],[],[]];//初始化地图
     for(var x=0;x<4;x++)
     {
         for(var y=0;y<4;y++)
         {
-            map_replay[step][x][y]=map[x][y]
+            map_playback[step][x][y]=map[x][y]
         }
     }
 }
@@ -100,7 +100,7 @@ function insert_one()//随机插入一个2或4，有空格子返回未插入
     while(if_inserted)
     {
         var x = Math.floor(Math.random()*4)
-		var y = Math.floor(Math.random()*4)
+		var y = Math.floor(Math.random()*4)//随机坐标
         if (map[x][y] == 0)
         {
 			map[x][y]=1+Math.floor(Math.random()*1.7);//生成4的概率较小
@@ -129,7 +129,7 @@ function init()//初始化4x4地图
 {
     step=0
     score=0
-    map_replay=[]
+    map_playback=[]
     ifend=false
     for (var i=0;i<4;i++)
     {
@@ -152,7 +152,7 @@ function check_moved()//检测按下某键后是否发生了移动
         {
             for(var y=0;y<4;y++)
             {
-                if(map_replay[step-1][x][y]!=map[x][y])
+                if(map_playback[step-1][x][y]!=map[x][y])
                 {
                     ifmoved=true
                 }
@@ -399,8 +399,8 @@ function output_html()//改变html中元素的值
     
     if(check_moved())
     {
-        save_replay()
-        score_replay[step]=score
+        save_playback()
+        score_playback[step]=score
         for(var x=0;x<4;x++)
         {
             for(var y=0;y<4;y++)
@@ -431,22 +431,22 @@ function output_html()//改变html中元素的值
         window.alert("游戏结束，您的分数:"+score)
     }
 }
-function update_pos(x,y,value)//改变座标上对应图片的显示
+function update_pos(x,y,value)//改变坐标上对应图片的显示
 {
     var map2word=[['p00','p01','p02','p03'],['p10','p11','p12','p13'],['p20','p21','p22','p23'],['p30','p31','p32','p33']]
     var value2word=['/pic/0.png','/pic/2.png','/pic/4.png','/pic/8.png','/pic/16.png','/pic/32.png','/pic/64.png','/pic/128.png','/pic/256.png','/pic/512.png','/pic/1024.png','/pic/2048.png']
     img2update=document.getElementById(map2word[y][x])
     img2update.src=value2word[value]
 }
-function map_replay_f()//游戏过程回放
+function map_playback_f()//游戏过程回放
 {
     var i=0
-    replaying=window.setInterval(function replay_fc()
+    playbacking=window.setInterval(function playback_fc()
     {
         if(i>step+1)
         {
             window.alert("回放完了！")
-            window.clearInterval(replaying)
+            window.clearInterval(playbacking)
         }
         else
         {
@@ -457,18 +457,18 @@ function map_replay_f()//游戏过程回放
                 {
                     for(var y=0;y<4;y++)
                     {
-                        update_pos(x,y,map_replay[i][x][y])
+                        update_pos(x,y,map_playback[i][x][y])
                     }
                 }
                 score2update=document.getElementById("score")
-                score2update.innerHTML=score_replay[i]+"分"
+                score2update.innerHTML=score_playback[i]+"分"
                 step2update=document.getElementById("step")
                 step2update.innerHTML=i+"步"
             }
             catch(e)
             {
                 window.alert("回放完毕")
-                window.clearInterval(replaying)
+                window.clearInterval(playbacking)
             }
             i++//步进
         }
