@@ -23,7 +23,6 @@ function stop_replay()//有按键或按钮输入则停止回放
     catch(e)
     {}
 }
-
 function undo()//撤销
 {
     stop_replay()
@@ -53,7 +52,6 @@ function undo()//撤销
         step++
     }
 }
-
 function keydown(the_key)//按键检测
 {
     stop_replay();//有按键输入则中断回放
@@ -75,7 +73,6 @@ function keydown(the_key)//按键检测
     }
     document.addEventListener("keydown",keydown);//接收下一个按键输入
 }
-
 function save_replay()//每次移动后保存状态
 {
     map_replay[step]=[[],[],[],[]];//初始化地图
@@ -87,7 +84,6 @@ function save_replay()//每次移动后保存状态
         }
     }
 }
-
 function add_block(n)//随机生成n个2或4
 {
     while(n > 0)
@@ -98,7 +94,6 @@ function add_block(n)//随机生成n个2或4
 		n--
 	}
 }
-
 function insert_one()//随机插入一个2或4，有空格子返回未插入
 {
 	var if_inserted = if_has_empty();//检测是否有空格子
@@ -114,7 +109,6 @@ function insert_one()//随机插入一个2或4，有空格子返回未插入
 	}
 	return if_inserted
 }
-
 function if_has_empty()//检测是否有空格子
 {
 	var ifempty = false
@@ -131,7 +125,6 @@ function if_has_empty()//检测是否有空格子
 	}
 	return ifempty
 }
-
 function init()//初始化4x4地图
 {
     step=0
@@ -150,7 +143,6 @@ function init()//初始化4x4地图
     add_block(2);//初始必定生成两个数
     output_html();//刷新地图
 }
-
 function check_moved()//检测按下某键后是否发生了移动
 {
     try
@@ -173,7 +165,6 @@ function check_moved()//检测按下某键后是否发生了移动
         return true;//第一次检测会抛出异常，故直接返回true
     }
 }
-
 function movup()//向上移动
 {
     clearnum()
@@ -217,7 +208,6 @@ function movup()//向上移动
     checkifend()
     output_html()
 }
-
 function movdown()
 {
     clearnum()
@@ -261,7 +251,6 @@ function movdown()
     checkifend()
     output_html()
 }
-
 function movleft()
 {
     clearnum();//初始化新生成数字的检测
@@ -305,7 +294,6 @@ function movleft()
     checkifend()
     output_html()
 }
-
 function movright()
 {
     clearnum()
@@ -349,7 +337,6 @@ function movright()
     checkifend()
     output_html()
 }
-
 function checkifend()//检查游戏是否结束
 {
     var iffull=true
@@ -407,7 +394,6 @@ function checkifend()//检查游戏是否结束
         ifend=true
     }
 }
-
 function output_html()//改变html中元素的值
 {
     
@@ -445,7 +431,6 @@ function output_html()//改变html中元素的值
         window.alert("游戏结束，您的分数:"+score)
     }
 }
-
 function update_pos(x,y,value)//改变座标上对应图片的显示
 {
     var map2word=[['p00','p01','p02','p03'],['p10','p11','p12','p13'],['p20','p21','p22','p23'],['p30','p31','p32','p33']]
@@ -453,7 +438,6 @@ function update_pos(x,y,value)//改变座标上对应图片的显示
     img2update=document.getElementById(map2word[y][x])
     img2update.src=value2word[value]
 }
-
 function map_replay_f()//游戏过程回放
 {
     var i=0
@@ -491,7 +475,6 @@ function map_replay_f()//游戏过程回放
     }
     ,100)
 }
-
 function clearnum()//初始化4×4新生成数字的检测
 {
     ifnewnum=[[],[],[],[]]
